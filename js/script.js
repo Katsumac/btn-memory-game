@@ -5,6 +5,7 @@ class Button {
         this.B = B;
         this.value = value;
         this.x = x;
+        this.isAlreadySelected = false;
     }
 
     /**
@@ -155,11 +156,19 @@ class Game {
         if (this.isGameOver == true && localStorage.getItem != null && localStorage.getItem("promptNewGameMsg") != "") {
             alert(localStorage.getItem("promptNewGameMsg"));
 
-            // If the last button is selected last, display the gameWinMsg and end the game
+        // If a selected button is selected again
+        } else if (localStorage.getItem != null && localStorage.getItem("gameWinMsg") != "" && this.buttonArrayObj[index].isAlreadySelected) {
+            alert(localStorage.getItem("btnAlreadySelectedMsg"));
+
+        // If the last button is selected last, display the gameWinMsg and end the game
         } else if (this.order == this.buttonArrayObj.length) {
             this.toggleButtonNumber("show", index);
             if (localStorage.getItem != null && localStorage.getItem("gameWinMsg") != "") {
-                alert(localStorage.getItem("gameWinMsg"));
+                const audio = new Audio("../media/audio/success-fanfare-trumpets-6185.mp3");
+                audio.play();
+                setTimeout(() => {
+                    alert(localStorage.getItem("gameWinMsg"));
+                }, 500);
             }
             this.endGame();
 
@@ -167,12 +176,18 @@ class Game {
         } else if (this.order == this.buttonArrayObj[index].value) {
             this.toggleButtonNumber("show", index);
             this.order++
+            this.buttonArrayObj[index].isAlreadySelected = true;
 
             // If a button is selected in the wrong order, display the gameLoseMsg and end the game
         } else {
             this.showAllNumbers();
             if (localStorage.getItem != null && localStorage.getItem("gameLoseMsg") != "") {
-                alert(localStorage.getItem("gameLoseMsg"));
+                const audio = new Audio("../media/audio/wah-wah-sad-trombone-6347.mp3");
+                audio.play();
+                setTimeout(() => {
+                    alert(localStorage.getItem("gameLoseMsg"));
+                }, 500);
+
             }
             this.endGame();
         }
