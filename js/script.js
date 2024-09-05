@@ -39,6 +39,8 @@ class Button {
     }
 }
 
+import * as msgs from "../lang/messages/en/user.js";
+
 class Game {
     constructor() {
         this.numButtons = 0;
@@ -153,23 +155,21 @@ class Game {
      */
     guess(index) {
         // If game is over
-        if (this.isGameOver == true && localStorage.getItem != null && localStorage.getItem("promptNewGameMsg") != "") {
-            alert(localStorage.getItem("promptNewGameMsg"));
+        if (this.isGameOver == true) {
+            alert(msgs.promptNewGameMsg);
 
         // If a selected button is selected again
-        } else if (localStorage.getItem != null && localStorage.getItem("gameWinMsg") != "" && this.buttonArrayObj[index].isAlreadySelected) {
-            alert(localStorage.getItem("btnAlreadySelectedMsg"));
+        } else if (this.buttonArrayObj[index].isAlreadySelected) {
+            alert(msgs.btnAlreadySelectedMsg);
 
         // If the last button is selected last, display the gameWinMsg and end the game
         } else if (this.order == this.buttonArrayObj.length) {
             this.toggleButtonNumber("show", index);
-            if (localStorage.getItem != null && localStorage.getItem("gameWinMsg") != "") {
                 const audio = new Audio("../media/audio/success-fanfare-trumpets-6185.mp3");
                 audio.play();
                 setTimeout(() => {
-                    alert(localStorage.getItem("gameWinMsg"));
+                    alert(msgs.gameWinMsg);
                 }, 500);
-            }
             this.endGame();
 
             // If a button is selected in the correct order, reveal the number and continue
@@ -181,14 +181,11 @@ class Game {
             // If a button is selected in the wrong order, display the gameLoseMsg and end the game
         } else {
             this.showAllNumbers();
-            if (localStorage.getItem != null && localStorage.getItem("gameLoseMsg") != "") {
                 const audio = new Audio("../media/audio/wah-wah-sad-trombone-6347.mp3");
                 audio.play();
                 setTimeout(() => {
-                    alert(localStorage.getItem("gameLoseMsg"));
+                    alert(msgs.gameLoseMsg);
                 }, 500);
-
-            }
             this.endGame();
         }
     }
@@ -253,8 +250,6 @@ document.getElementById("btnNumSubmit").addEventListener("click", () => {
     if (numButtons >= 3 && numButtons <= 7) {
         game.startGame(numButtons);
     } else {
-        if (localStorage.getItem != null && localStorage.getItem("inputValidationMsg") != "") {
-            alert(localStorage.getItem("inputValidationMsg"));
-        }
+        alert(msgs.inputValidationMsg);
     }
 })
