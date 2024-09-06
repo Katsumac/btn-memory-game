@@ -33,6 +33,11 @@ export class Button {
     move(index, buttonArrayDOM) {
         const newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 135));
         const newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 100));
+
+        if (newX <= 380 && newY <= 265) {
+            newY += 265;
+        }
+
         buttonArrayDOM[index].style.position = "absolute"
         buttonArrayDOM[index].style.left = newX + "px";
         buttonArrayDOM[index].style.top = newY + "px";
