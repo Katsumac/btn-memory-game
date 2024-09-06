@@ -6,6 +6,12 @@ document.getElementById("btnNumSubmit").addEventListener("click", () => {
     const game = new Game();
     const numButtons = document.getElementById("btnNumInput").value;
 
+    if (document.getElementById("classicMode").checked) {
+        game.gameMode = 0;
+    } else {
+        game.gameMode = 1;
+    }
+
     // Input validation
     if (numButtons >= 3 && numButtons <= 7) {
         game.startGame(numButtons);

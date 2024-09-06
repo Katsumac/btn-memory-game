@@ -7,6 +7,7 @@ export class Game {
         this.order = 1;
         this.buttonArrayObj = [];
         this.buttonArrayDOM = [];
+        this.gameMode = 0;
         this.isGameOver = false;
     }
 
@@ -16,12 +17,28 @@ export class Game {
      * @param {number} numButtons The number of buttons
      */
     startGame(numButtons) {
+        document.getElementById("timer").innerHTML = "";
+        this.disableInputs();
         this.removeButtons();
         this.setNumButtons(numButtons);
         this.generateButtons();
         this.scramble();
         this.hideAllNumbers();
         this.startGuessingPhase();
+    }
+
+    disableInputs() {
+        document.getElementById("btnNumInput").setAttribute("disabled", true);
+        document.getElementById("btnNumSubmit").setAttribute("disabled", true);
+        document.getElementById("classicMode").setAttribute("disabled", true);
+        document.getElementById("timedMode").setAttribute("disabled", true);
+    }
+
+    enableInputs() {
+        document.getElementById("btnNumInput").removeAttribute("disabled");
+        document.getElementById("btnNumSubmit").removeAttribute("disabled");
+        document.getElementById("classicMode").removeAttribute("disabled");
+        document.getElementById("timedMode").removeAttribute("disabled");
     }
 
     /**
@@ -73,7 +90,6 @@ export class Game {
     scramble() {
         let counter = 0;
         const timeout = this.numButtons * 1000;
-        document.getElementById("btnNumSubmit").setAttribute("disabled", true);
 
         const initialInterval = setInterval(() => {
             const secondInterval = setInterval(() => {
@@ -81,6 +97,9 @@ export class Game {
                 if (counter == this.numButtons) {
                     this.makeButtonsClickable();
                     clearInterval(secondInterval);
+                    if (this.gameMode === 1) {
+                        this.startTimer(this.numButtons * 2);
+                    }
                 }
                 this.moveButtons(this.numButtons);
             }, 2000);
@@ -95,7 +114,31 @@ export class Game {
         for (let i = 0; i < this.buttonArrayDOM.length; i++) {
             this.buttonArrayDOM[i].removeAttribute("disabled");
         }
-        document.getElementById("btnNumSubmit").removeAttribute("disabled");
+    }
+
+    /**
+     * Starts a timer. If time runs out, the game is over.
+     * If the game is completed before then, the timer stops.
+     * 
+     * @param {number} time the amount of time to play the game
+     */
+    startTimer(time) {
+        let timeleft = time;
+        const gameTimer = setInterval(() => {
+            if (timeleft <= 0) {
+                clearInterval(gameTimer);
+                document.getElementById("timer").innerHTML = "Time's up!";
+                this.showAllNumbers();
+                this.endGame("../media/audio/wah-wah-sad-trombone-6347.mp3", msgs.timesUpMsg);
+            } else {
+                if (!this.isGameOver) {
+                    document.getElementById("timer").innerHTML = "Time remaining: " + timeleft + "s"
+                } else {
+                    clearInterval(gameTimer);
+                }
+            }
+            timeleft -= 1;
+        }, 1000);
     }
 
     /**
@@ -134,6 +177,7 @@ export class Game {
      * @param {number} index of the button in both buttonArrayObj and buttonArrayDOM arrays
      */
     guess(index) {
+
         // If game is over
         if (this.isGameOver == true) {
             alert(msgs.promptNewGameMsg);
@@ -197,5 +241,6 @@ export class Game {
             alert(msg);
         }, 750);
         this.isGameOver = true;
+        this.enableInputs();
     }
 }
