@@ -25,21 +25,25 @@ export class Game {
     }
 
     /**
+     * Removes the buttons from the page and empties the arrays
+     */
+    removeButtons() {
+        const memoryButtons = document.getElementById("buttonArea").childNodes;
+        const numMemoryButtons = memoryButtons.length;
+        for (let i = 0; i < numMemoryButtons; i++) {
+            memoryButtons[0].parentNode.removeChild(memoryButtons[0]);
+        }
+        this.buttonArrayObj.length = 0;
+        this.buttonArrayDOM.length = 0;
+    }
+
+    /**
      * Sets the number of buttons
      * 
      * @param {number} count The number of buttons based on user input
      */
     setNumButtons(count) {
         this.numButtons = count;
-    }
-
-    /**
-     * Generates an R, G, or B value from 0 to 255
-     * 
-     * @returns an R, G or B value from 0 to 255
-     */
-    generateRandomColorValue() {
-        return Math.floor(Math.random() * 256);
     }
 
     /**
@@ -54,36 +58,12 @@ export class Game {
     }
 
     /**
-     * Removes the buttons from the page and empties the arrays
+     * Generates an R, G, or B value from 0 to 255
+     * 
+     * @returns an R, G or B value from 0 to 255
      */
-    removeButtons() {
-        const memoryButtons = document.getElementById("buttonArea").childNodes;
-        const numMemoryButtons = memoryButtons.length;
-        for (let i = 0; i < numMemoryButtons; i++) {
-            memoryButtons[0].parentNode.removeChild(memoryButtons[0]);
-        }
-        this.buttonArrayObj.length = 0;
-        this.buttonArrayDOM.length = 0;
-    }
-
-    /**
-     * Makes the buttons clickable by removing the "disabled" attribute
-     */
-    makeButtonsClickable() {
-        for (let i = 0; i < this.buttonArrayDOM.length; i++) {
-            this.buttonArrayDOM[i].removeAttribute("disabled");
-        }
-        document.getElementById("btnNumSubmit").removeAttribute("disabled");
-    }
-
-    /**
-     * Moves the buttons on screen
-     * @param {number} numButtons The number of buttons
-     */
-    moveButtons(numButtons) {
-        for (let i = 0; i < numButtons; i++) {
-            this.buttonArrayObj[i].move(i, this.buttonArrayDOM);
-        }
+    generateRandomColorValue() {
+        return Math.floor(Math.random() * 256);
     }
 
     /**
@@ -109,6 +89,46 @@ export class Game {
     }
 
     /**
+     * Makes the buttons clickable by removing the "disabled" attribute
+     */
+    makeButtonsClickable() {
+        for (let i = 0; i < this.buttonArrayDOM.length; i++) {
+            this.buttonArrayDOM[i].removeAttribute("disabled");
+        }
+        document.getElementById("btnNumSubmit").removeAttribute("disabled");
+    }
+
+    /**
+     * Moves the buttons on screen
+     * @param {number} numButtons The number of buttons
+     */
+    moveButtons(numButtons) {
+        for (let i = 0; i < numButtons; i++) {
+            this.buttonArrayObj[i].move(i, this.buttonArrayDOM);
+        }
+    }
+
+    /**
+     * Hides the numbers when the user can start guessing
+     */
+    hideAllNumbers() {
+        for (let i = 0; i < this.buttonArrayDOM.length; i++) {
+            this.toggleButtonNumber("hide", i);
+        }
+    }
+
+    /**
+     * Allows users to make their guesses by adding event listeners to each button
+     */
+    startGuessingPhase() {
+        for (let i = 0; i < this.buttonArrayDOM.length; i++) {
+            this.buttonArrayDOM[i].addEventListener("click", () => {
+                this.guess(i);
+            });
+        }
+    }
+
+    /**
      * Allows users to guess the order of the buttons and responds to their choices
      * 
      * @param {number} index of the button in both buttonArrayObj and buttonArrayDOM arrays
@@ -125,12 +145,7 @@ export class Game {
         // If the last button is selected last, display the gameWinMsg and end the game
         } else if (this.order == this.buttonArrayObj.length) {
             this.toggleButtonNumber("show", index);
-                const audio = new Audio("../media/audio/success-fanfare-trumpets-6185.mp3");
-                audio.play();
-                setTimeout(() => {
-                    alert(msgs.gameWinMsg);
-                }, 500);
-            this.endGame();
+            this.endGame("../media/audio/success-fanfare-trumpets-6185.mp3", msgs.gameWinMsg);
 
             // If a button is selected in the correct order, reveal the number and continue
         } else if (this.order == this.buttonArrayObj[index].value) {
@@ -141,21 +156,7 @@ export class Game {
             // If a button is selected in the wrong order, display the gameLoseMsg and end the game
         } else {
             this.showAllNumbers();
-                const audio = new Audio("../media/audio/wah-wah-sad-trombone-6347.mp3");
-                audio.play();
-                setTimeout(() => {
-                    alert(msgs.gameLoseMsg);
-                }, 500);
-            this.endGame();
-        }
-    }
-
-    /**
-     * Hides the numbers when the user can start guessing
-     */
-    hideAllNumbers() {
-        for (let i = 0; i < this.buttonArrayDOM.length; i++) {
-            this.toggleButtonNumber("hide", i);
+            this.endGame("../media/audio/wah-wah-sad-trombone-6347.mp3", msgs.gameLoseMsg);
         }
     }
 
@@ -183,20 +184,18 @@ export class Game {
     }
 
     /**
-     * Allows users to make their guesses by adding event listeners to each button
+     * Plays audio and message depending on the game result and sets isGameOver to true
+     * 
+     * @param {string} audioPath The path to the audio file
+     * @param {string} msg The msg to be displayed to the player
+     * 
      */
-    startGuessingPhase() {
-        for (let i = 0; i < this.buttonArrayDOM.length; i++) {
-            this.buttonArrayDOM[i].addEventListener("click", () => {
-                this.guess(i);
-            });
-        }
-    }
-
-    /**
-     * Sets isGameOver to true so that the proper game over message is displayed
-     */
-    endGame() {
+    endGame(audioPath, msg) {
+        const audio = new Audio(audioPath);
+        audio.play();
+        setTimeout(() => {
+            alert(msg);
+        }, 750);
         this.isGameOver = true;
     }
 }
