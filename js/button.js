@@ -1,10 +1,8 @@
 export class Button {
-    constructor(R, G, B, value, x) {
-        this.R = R;
-        this.G = G;
-        this.B = B;
+    constructor(colour, value, xPosition) {
+        this.colour = colour;
         this.value = value;
-        this.x = x;
+        this.xPosition = xPosition;
         this.isAlreadySelected = false;
     }
 
@@ -16,7 +14,7 @@ export class Button {
      */
     appendToPage(index, buttonArrayDOM) {
         const btn = document.createElement("button");
-        btn.style = `background-color: rgb(${this.R}, ${this.G}, ${this.B}); left: ${this.x}em`;
+        btn.style = `background-color: ${this.colour}; left: ${this.xPosition}em`;
         btn.innerText = this.value;
         btn.setAttribute("class", "memoryButtons visibleNumber");
         btn.setAttribute("disabled", true);
@@ -30,10 +28,10 @@ export class Button {
      * @param {Button} button The button to be moved
      */
     move(button) {
-        let newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 140));
-        const newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 110));
+        let newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 150));
+        const newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 120));
 
-        if (newX <= 455 && newY <= 405) {
+        if (newX <= 455 && newY <= 475) {
             newX += 455;
         }
 

@@ -7,6 +7,8 @@ export class Game {
         this.order = 1;
         this.buttonArrayObj = [];
         this.buttonArrayDOM = [];
+        this.availableColours = ["crimson", "darkorange", "gold", "lawngreen", "aqua", "blueviolet", "bisque"];
+        this.usedColours = [];
         this.gameMode = 0;
         this.isGameOver = false;
     }
@@ -20,6 +22,7 @@ export class Game {
         document.getElementById("msg").innerHTML = "";
         this.disableInputs();
         this.removeButtons();
+        this.resetColourArrays();
         this.setNumButtons(numButtons);
         this.generateButtons();
         this.scramble();
@@ -55,6 +58,16 @@ export class Game {
     }
 
     /**
+     * Moves all colour strings from usedColours to availableColours
+     */
+    resetColourArrays() {
+        while (this.usedColours.length >= 1) {
+            this.availableColours.push(this.usedColours[0]);
+            this.usedColours.shift();
+        }
+    }
+
+    /**
      * Sets the number of buttons
      * 
      * @param {number} count The number of buttons based on user input
@@ -68,19 +81,23 @@ export class Game {
      */
     generateButtons() {
         for (let i = 0; i < this.numButtons; i++) {
-            const btn = new Button(this.generateRandomColorValue(), this.generateRandomColorValue(), this.generateRandomColorValue(), i + 1, i * 12);
+            const btn = new Button(this.selectRandomColour(), i + 1, i * 12);
             this.buttonArrayObj[i] = btn;
             btn.appendToPage(i, this.buttonArrayDOM);
         }
     }
 
     /**
-     * Generates an R, G, or B value from 0 to 255
+     * Randomly selects a colour from available colours
      * 
-     * @returns an R, G or B value from 0 to 255
+     * @returns an available colour
      */
-    generateRandomColorValue() {
-        return Math.floor(Math.random() * 256);
+    selectRandomColour() {
+        const index = Math.floor(Math.random() * (this.availableColours.length - 1));
+        const colour = this.availableColours[index];
+        this.usedColours.push(colour);
+        this.availableColours.splice(index, 1);
+        return colour;
     }
 
     /**
@@ -238,9 +255,6 @@ export class Game {
         const audio = new Audio(audioPath);
         audio.play();
         document.getElementById("msg").innerHTML = msg;
-        // setTimeout(() => {
-        //     alert(msg);
-        // }, 750);
         this.isGameOver = true;
         this.enableInputs();
     }
