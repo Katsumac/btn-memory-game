@@ -4,6 +4,7 @@
     border-radius: 1em;
     margin-top: 1em;
     margin-left: 1em;
+    margin-left: 1em;
     padding: 1em;
     background-color: lightskyblue;
 }
@@ -17,6 +18,7 @@
 .buttonArea {
     display: flex;
     flex-wrap: wrap;
+    max-width: 300px;
 }
 
 .memoryButtons {

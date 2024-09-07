@@ -230,20 +230,6 @@ export class Game {
         }
     }
 
-    // /**
-    //  * Shows or hides the button number by switching between classes
-    //  * 
-    //  * @param {string} visibility The string that determines whether to hide or show the button number
-    //  * @param {number} index The index of the button in the buttonArrayDOM array
-    //  */
-    // toggleButtonNumber(visibility, index) {
-    //     if (visibility === "hide") {
-    //         this.buttonArrayDOM[index].setAttribute("class", "memoryButtons hiddenNumber");
-    //     } else {
-    //         this.buttonArrayDOM[index].setAttribute("class", "memoryButtons visibleNumber");
-    //     }
-    // }
-
     /**
      * Plays audio and message depending on the game result and sets isGameOver to true
      * 
