@@ -1,6 +1,8 @@
 # Button Memory Game
 
-This is a button memory game made using JavaScript classes. 
+This is a button memory game made using JavaScript classes.
+
+Link: https://btnmemorygame.netlify.app
 
 ## Game Description
 
