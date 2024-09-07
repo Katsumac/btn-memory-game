@@ -8,10 +8,9 @@
     background-color: lightskyblue;
 }
 
-#msg {
+.menutxt {
     word-wrap: break-word;
     width: 405px;
-    font-weight: bold;
 }
 
 .buttonArea {
