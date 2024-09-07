@@ -16,6 +16,6 @@ document.getElementById("btnNumSubmit").addEventListener("click", () => {
     if (numButtons >= 3 && numButtons <= 7) {
         game.startGame(numButtons);
     } else {
-        alert(msgs.inputValidationMsg);
+        document.getElementById("msg").innerHTML = msgs.inputValidationMsg;
     }
 })

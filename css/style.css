@@ -8,6 +8,11 @@
     background-color: lightskyblue;
 }
 
+#msg {
+    word-wrap: break-word;
+    width: 405px;
+}
+
 .buttonArea {
     display: flex;
     flex-wrap: wrap;

@@ -17,7 +17,7 @@ export class Game {
      * @param {number} numButtons The number of buttons
      */
     startGame(numButtons) {
-        document.getElementById("timer").innerHTML = "";
+        document.getElementById("msg").innerHTML = "";
         this.disableInputs();
         this.removeButtons();
         this.setNumButtons(numButtons);
@@ -127,12 +127,12 @@ export class Game {
         const gameTimer = setInterval(() => {
             if (timeleft <= 0) {
                 clearInterval(gameTimer);
-                document.getElementById("timer").innerHTML = "Time's up!";
+                document.getElementById("msg").innerHTML = "Time's up!";
                 this.showAllNumbers();
                 this.endGame("../media/audio/wah-wah-sad-trombone-6347.mp3", msgs.timesUpMsg);
             } else {
                 if (!this.isGameOver) {
-                    document.getElementById("timer").innerHTML = "Time remaining: " + timeleft + "s"
+                    document.getElementById("msg").innerHTML = "Time remaining: " + timeleft + "s"
                 } else {
                     clearInterval(gameTimer);
                 }
@@ -180,11 +180,11 @@ export class Game {
 
         // If game is over
         if (this.isGameOver === true) {
-            alert(msgs.promptNewGameMsg);
+            document.getElementById("msg").innerHTML = msgs.promptNewGameMsg;
 
         // If a selected button is selected again
         } else if (this.buttonArrayObj[index].isAlreadySelected) {
-            alert(msgs.btnAlreadySelectedMsg);
+            document.getElementById("msg").innerHTML = msgs.btnAlreadySelectedMsg;
 
         // If the last button is selected last, display the gameWinMsg and end the game
         } else if (this.order === this.buttonArrayObj.length) {
@@ -237,9 +237,10 @@ export class Game {
     endGame(audioPath, msg) {
         const audio = new Audio(audioPath);
         audio.play();
-        setTimeout(() => {
-            alert(msg);
-        }, 750);
+        document.getElementById("msg").innerHTML = msg;
+        // setTimeout(() => {
+        //     alert(msg);
+        // }, 750);
         this.isGameOver = true;
         this.enableInputs();
     }
