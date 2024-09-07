@@ -28,11 +28,11 @@ export class Button {
      * @param {Button} button The button to be moved
      */
     move(button) {
-        let newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 150));
-        const newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 120));
+        const newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 200));
+        let newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 120));
 
-        if (newX <= 455 && newY <= 475) {
-            newX += 455;
+        if (newX <= 455 && newY <= 550) {
+            newY += 550;
         }
 
         button.style.left = newX + "px";
