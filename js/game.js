@@ -94,7 +94,7 @@ export class Game {
         const initialInterval = setInterval(() => {
             const secondInterval = setInterval(() => {
                 counter++;
-                if (counter == this.numButtons) {
+                if (counter === this.numButtons) {
                     this.makeButtonsClickable();
                     clearInterval(secondInterval);
                     if (this.gameMode === 1) {
@@ -147,7 +147,7 @@ export class Game {
      */
     moveButtons(numButtons) {
         for (let i = 0; i < numButtons; i++) {
-            this.buttonArrayObj[i].move(i, this.buttonArrayDOM);
+            this.buttonArrayObj[i].move(this.buttonArrayDOM[i]);
         }
     }
 
@@ -156,7 +156,7 @@ export class Game {
      */
     hideAllNumbers() {
         for (let i = 0; i < this.buttonArrayDOM.length; i++) {
-            this.toggleButtonNumber("hide", i);
+            this.buttonArrayObj[i].toggleButtonNumber("hide", this.buttonArrayDOM[i]);
         }
     }
 
@@ -179,7 +179,7 @@ export class Game {
     guess(index) {
 
         // If game is over
-        if (this.isGameOver == true) {
+        if (this.isGameOver === true) {
             alert(msgs.promptNewGameMsg);
 
         // If a selected button is selected again
@@ -187,13 +187,13 @@ export class Game {
             alert(msgs.btnAlreadySelectedMsg);
 
         // If the last button is selected last, display the gameWinMsg and end the game
-        } else if (this.order == this.buttonArrayObj.length) {
-            this.toggleButtonNumber("show", index);
+        } else if (this.order === this.buttonArrayObj.length) {
+            this.buttonArrayObj[index].toggleButtonNumber("show", this.buttonArrayDOM[index]);
             this.endGame("../media/audio/success-fanfare-trumpets-6185.mp3", msgs.gameWinMsg);
 
             // If a button is selected in the correct order, reveal the number and continue
-        } else if (this.order == this.buttonArrayObj[index].value) {
-            this.toggleButtonNumber("show", index);
+        } else if (this.order === this.buttonArrayObj[index].value) {
+            this.buttonArrayObj[index].toggleButtonNumber("show", this.buttonArrayDOM[index]);
             this.order++
             this.buttonArrayObj[index].isAlreadySelected = true;
 
@@ -209,23 +209,23 @@ export class Game {
      */
     showAllNumbers() {
         for (let i = 0; i < this.buttonArrayDOM.length; i++) {
-            this.toggleButtonNumber("show", i);
+            this.buttonArrayObj[i].toggleButtonNumber("show", this.buttonArrayDOM[i]);
         }
     }
 
-    /**
-     * Shows or hides the button number by switching between classes
-     * 
-     * @param {string} visibility The string that determines whether to hide or show the button number
-     * @param {number} index The index of the button in the buttonArrayDOM array
-     */
-    toggleButtonNumber(visibility, index) {
-        if (visibility == "hide") {
-            this.buttonArrayDOM[index].setAttribute("class", "memoryButtons hiddenNumber");
-        } else {
-            this.buttonArrayDOM[index].setAttribute("class", "memoryButtons visibleNumber");
-        }
-    }
+    // /**
+    //  * Shows or hides the button number by switching between classes
+    //  * 
+    //  * @param {string} visibility The string that determines whether to hide or show the button number
+    //  * @param {number} index The index of the button in the buttonArrayDOM array
+    //  */
+    // toggleButtonNumber(visibility, index) {
+    //     if (visibility === "hide") {
+    //         this.buttonArrayDOM[index].setAttribute("class", "memoryButtons hiddenNumber");
+    //     } else {
+    //         this.buttonArrayDOM[index].setAttribute("class", "memoryButtons visibleNumber");
+    //     }
+    // }
 
     /**
      * Plays audio and message depending on the game result and sets isGameOver to true

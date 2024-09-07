@@ -4,7 +4,7 @@ import * as msgs from "../lang/messages/en/user.js";
 // The event listener on the "Go!" button. Clicking on it starts the game
 document.getElementById("btnNumSubmit").addEventListener("click", () => {
     const game = new Game();
-    const numButtons = document.getElementById("btnNumInput").value;
+    const numButtons = Number(document.getElementById("btnNumInput").value);
 
     if (document.getElementById("classicMode").checked) {
         game.gameMode = 0;

@@ -27,18 +27,31 @@ export class Button {
     /**
      * Moves the button to a random position on the screen
      * 
-     * @param {number} index The index of the button in the buttonArrayDOM array
-     * @param {Button DOM Object Array} buttonArrayDOM The array of buttons created by DOM
+     * @param {Button} button The button to be moved
      */
-    move(index, buttonArrayDOM) {
-        const newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 140));
+    move(button) {
+        let newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 140));
         const newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 110));
 
         if (newX <= 380 && newY <= 265) {
             newX += 380;
         }
 
-        buttonArrayDOM[index].style.left = newX + "px";
-        buttonArrayDOM[index].style.top = newY + "px";
+        button.style.left = newX + "px";
+        button.style.top = newY + "px";
+    }
+
+    /**
+     * Shows or hides the button number by switching between classes
+     * 
+     * @param {string} visibility The string that determines whether to hide or show the button number
+     * @param {number} index The index of the button in the buttonArrayDOM array
+     */
+    toggleButtonNumber(visibility, button) {
+        if (visibility === "hide") {
+            button.setAttribute("class", "memoryButtons hiddenNumber");
+        } else {
+            button.setAttribute("class", "memoryButtons visibleNumber");
+        }
     }
 }
