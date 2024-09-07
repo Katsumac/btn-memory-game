@@ -11,6 +11,7 @@
 #msg {
     word-wrap: break-word;
     width: 405px;
+    font-weight: bold;
 }
 
 .buttonArea {
@@ -25,10 +26,22 @@
     margin-left: 1em;
     margin-right: 1em;
     position: absolute;
+    border-radius: 1em;
+    border: none;
+    box-shadow: 0 7px #999;
 }
 
 .memoryButtons:disabled {
     color: black;
+}
+
+.memoryButtons:hover:enabled {
+    background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
+}
+
+.memoryButtons:active:enabled {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
 .visibleNumber {
