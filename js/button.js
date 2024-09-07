@@ -33,8 +33,8 @@ export class Button {
         let newX = Math.floor(Math.random() * (document.documentElement.clientWidth - 140));
         const newY = Math.floor(Math.random() * (document.documentElement.clientHeight - 110));
 
-        if (newX <= 380 && newY <= 265) {
-            newX += 380;
+        if (newX <= 455 && newY <= 405) {
+            newX += 455;
         }
 
         button.style.left = newX + "px";
@@ -45,7 +45,7 @@ export class Button {
      * Shows or hides the button number by switching between classes
      * 
      * @param {string} visibility The string that determines whether to hide or show the button number
-     * @param {number} index The index of the button in the buttonArrayDOM array
+     * @param {Button} button The button that will have its number toggled
      */
     toggleButtonNumber(visibility, button) {
         if (visibility === "hide") {

@@ -1,3 +1,13 @@
+#menu {
+    display: inline-block;
+    box-shadow: 0 1em 1em #77777736;
+    border-radius: 1em;
+    margin-top: 1em;
+    margin-left: 1em;
+    padding: 1em;
+    background-color: lightskyblue;
+}
+
 .buttonArea {
     display: flex;
     flex-wrap: wrap;
